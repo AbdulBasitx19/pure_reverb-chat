@@ -7,3 +7,7 @@ Route::get('/', function () {
 });
 
  Route::get('/dashboard', function () { return view('layouts.pages.dashboard.index'); })->name('dashboard');
+
+ Route::get('/login', function () {
+    return view('auth.pages.login');
+})->name('login');
