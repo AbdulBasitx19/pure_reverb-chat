@@ -1,59 +1,60 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# 🎨 Velzon Admin Theme - Laravel Blade Template
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+A clean, production-ready Laravel Blade templating setup for the **Velzon Admin & Dashboard Theme**. This repository contains a decoupled, pure-UI layout structure (Master, Sidebar, Topbar, Footer, etc.) without any backend logic, authentication, or database dependencies. It serves as a perfect starter template for new Laravel projects.
 
-## About Laravel
+## 📦 Step 1: Download Theme Assets (Required)
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+Due to GitHub file size limits, the theme's static assets (CSS, JS, Images, Fonts, and Libraries) are hosted externally. You must download them before running the project.
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+🔗 **Download Assets Here:** [Velzon Theme Assets (Google Drive)](https://drive.google.com/drive/folders/1m_QJfs4-TQ0vzx1bCQw_AeKkJceOPkSG?usp=sharing)
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+**Instructions:**
+1. Download the `assets` folder (or `assets.zip`) from the Drive link above.
+2. Extract it (if zipped).
+3. Place the `assets` folder directly inside your Laravel project's `public/` directory.
+   - **Correct Path:** `your-project/public/assets/` (It should contain `css`, `js`, `images`, `libs`, etc.)
 
-## Learning Laravel
+## 🚀 Step 2: Installation & Setup
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework. You can also check out [Laravel Learn](https://laravel.com/learn), where you will be guided through building a modern Laravel application.
+Once the assets are in the `public/` folder, follow these steps to get the template running:
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+```bash
+# 1. Install PHP dependencies
+composer install
 
-## Laravel Sponsors
+# 2. Setup environment variables
+cp .env.example .env
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+# 3. Generate application key
+php artisan key:generate
 
-### Premium Partners
+# 4. Start the local development server
+php artisan serve
 
-- **[Vehikl](https://vehikl.com)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development)**
-- **[Active Logic](https://activelogic.com)**
 
-## Contributing
+## 👀 Step 3: View the Template
+Open your browser and navigate to the dashboard route:
+👉 http://127.0.0.1:8000/dashboard
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+##  📂 Project Structure
 
-## Code of Conduct
+resources/views/
+└── layouts/
+    ├── master.blade.php              # Main skeleton (extends all partials)
+    ├── head-css.blade.php            # Global CSS and CDN links
+    ├── scripts.blade.php             # Global JS, jQuery, and CDN scripts
+    ├── topbar.blade.php              # Header, search, notifications, user dropdown
+    ├── sidebar.blade.php             # Navigation menu
+    ├── footer.blade.php              # Page footer
+    ├── body-tools.blade.php          # Preloader and back-to-top button
+    ├── customizer.blade.php          # Theme settings offcanvas panel
+    ├── notification-modal.blade.php  # Global confirmation modal
+    └── pages/
+        └── dashboard/
+            └── index.blade.php       # Main dashboard view (extends master)
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
-
-## Security Vulnerabilities
-
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
-
-## License
-
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+##  🛠️ Developer Notes
+Pure UI: The template contains zero backend logic, no auth() checks, and no @can/@role directives. It is strictly HTML/Blade.
+Routing: The sidebar currently uses href="#" for navigation links to prevent "Route not defined" errors in a fresh setup. Replace # with {{ route('your.route.name') }} as you build your controllers.
+Dynamic Data: The user dropdown currently displays a static "Admin User". Replace this with {{ auth()->user()->name }} once you implement authentication.
+Page-Specific Assets: Use @section('script') and @section('page-css') in your child views to inject page-specific JavaScript and CSS without bloating the master layout.
