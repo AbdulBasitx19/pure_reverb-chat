@@ -37,6 +37,15 @@ class LoginController extends Controller
         ])->onlyInput('email'); // Sirf email field ko wapis bheja (password nahi)
     }
 
+    //Handle logout request (POST Request)
+    public function logout(Request $request)
+    {
+        Auth::logout(); // Session destroy kiya (user ka login khatam)
+        $request->session()->invalidate(); // Session ko invalidate kiya (security ke liye)
+        $request->session()->regenerateToken(); // CSRF token regenerate kiya (security ke liye)
+        return redirect('/login');
+    }
+
 
 
 }

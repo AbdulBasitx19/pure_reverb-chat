@@ -443,9 +443,7 @@
                             <span class="align-middle">Settings</span>
                         </a> 
                         
-                        <!-- ✅ Logout Form (Yeh bilkul sahi hai, @csrf ke sath) -->
-                        <!-- Abhi href="#" kar diya hai taake error na aaye, baad mein route('logout') kar dena -->
-                        <form action="#" method="POST" class="d-inline">
+                        <form action="{{ route('logout') }}" method="POST" class="d-inline">
                             @csrf
                             <button type="submit" class="dropdown-item border-0 bg-transparent w-100 text-start">
                                 <i class="mdi mdi-logout text-muted fs-16 align-middle me-1"></i> 

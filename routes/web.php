@@ -15,4 +15,6 @@ Route::get('/', function () {
 Route::get('/login', [LoginController::class, 'showLoginForm'])->name('login');
 //POST route -> Login process karna (Form submit hone par yeh call hoga).
 Route::post('/login', [LoginController::class, 'login'])->name('login.post');
+//POST Route: Logout process karna
+Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
 
