@@ -8,10 +8,15 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
+use Spatie\Permission\Traits\HasRoles; //Spatie ka HasRoles trait import for using assignRole() and other methods etc
+
 class User extends Authenticatable
 {
     /** @use HasFactory<UserFactory> */
     use HasFactory, Notifiable;
+
+    //  HasRoles trait ka use 
+    use HasRoles; 
 
     /**
      * The attributes that are mass assignable.

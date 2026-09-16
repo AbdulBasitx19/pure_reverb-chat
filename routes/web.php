@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\LoginController;
+use App\Http\Controllers\Admin\RoleController; 
 
 Route::get('/', function () {
     return view('welcome');
@@ -17,4 +18,18 @@ Route::get('/login', [LoginController::class, 'showLoginForm'])->name('login');
 Route::post('/login', [LoginController::class, 'login'])->name('login.post');
 //POST Route: Logout process karna
 Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
+
+
+// Role Management Routes (Protected by 'auth' middleware)
+Route::middleware(['auth'])->prefix('admin')->name('admin.')->group(function () {
+    Route::get('/roles', [RoleController::class, 'index'])->name('roles.index');
+    Route::post('/roles', [RoleController::class, 'store'])->name('roles.store');
+    Route::get('/roles/{id}/edit', [RoleController::class, 'edit'])->name('roles.edit');
+    Route::delete('/roles/{id}', [RoleController::class, 'destroy'])->name('roles.destroy');
+    
+    // Permissions Routes
+    Route::get('/roles/{id}/permissions', [RoleController::class, 'getPermissions'])->name('roles.permissions');
+    Route::post('/roles/{id}/permissions', [RoleController::class, 'syncPermissions'])->name('roles.sync-permissions');
+});
+
 
