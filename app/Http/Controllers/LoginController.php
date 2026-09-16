@@ -28,7 +28,7 @@ class LoginController extends Controller
         // Auth::attempt: Database mein check karo ke email/password match karte hain
         if (Auth::attempt($credentials))
         {
-            $request->sesssion()->regenerate(); // Session regenerate karo (security ke liye)
+            $request->session()->regenerate(); // Session regenerate karo (security ke liye)
             return redirect()->intended('/dashboard');
         }
 
