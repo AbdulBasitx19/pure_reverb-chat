@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\LoginController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -8,6 +9,8 @@ Route::get('/', function () {
 
  Route::get('/dashboard', function () { return view('layouts.pages.dashboard.index'); })->name('dashboard');
 
- Route::get('/login', function () {
-    return view('auth.pages.login');
-})->name('login');
+
+ //Get route -> pointing to LoginController function showLoginForm
+Route::get('/login', [LoginController::class, 'showLoginForm'])->name('login');
+
+
