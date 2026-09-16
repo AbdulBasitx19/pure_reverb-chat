@@ -7,7 +7,8 @@ Route::get('/', function () {
     return view('welcome');
 });
 
- Route::get('/dashboard', function () { return view('layouts.pages.dashboard.index'); })->name('dashboard');
+//middleware auth lgaya hy : Sirf authenticated (login) user can access this route
+ Route::get('/dashboard', function () { return view('layouts.pages.dashboard.index'); })->middleware('auth')->name('dashboard');
 
 
  //Get route -> pointing to LoginController function showLoginForm
