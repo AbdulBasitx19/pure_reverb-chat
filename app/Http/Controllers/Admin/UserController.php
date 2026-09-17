@@ -124,7 +124,28 @@ class UserController extends Controller
         ]);
     }
 
-        
-}
-    
+    // SYNC USER ROLES: Modal se aaye hue checkboxes ko save karna
+    public function syncUserRoles(Request $request, $id)
+    {
+        try {
+            $user = User::findOrFail($id);
+            
+            // AJAX se array aayega, e.g., [1, 3]. Agar khali hai toh empty array []
+            $roleIds = $request->roles ?? []; 
 
+            // Database se wo Role models nikalo jo in IDs se match karte hain
+            $roles = Role::whereIn('id', $roleIds)->get();
+            
+            // SPATIE: syncRoles() -> Yeh purane roles detach (remove) karega aur naye selected roles attach (add) karega.
+            $user->syncRoles($roles);
+
+            return response()->json(['success' => 'Roles assigned successfully']);
+        } catch (\Exception $e) {
+            \Log::error('Role Sync Error: ' . $e->getMessage());
+            return response()->json([
+                'error'   => 'Failed to assign roles',
+                'message' => $e->getMessage()
+            ], 500);
+        }
+    }
+}
