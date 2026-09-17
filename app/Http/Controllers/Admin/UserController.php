@@ -83,6 +83,18 @@ class UserController extends Controller
         }
     }
 
+    public function edit($id)
+    {
+        $user = User::findOrFail($id);
+        return response()->json([
+            'id'        => $user->id,
+            'name'      => $user->name,
+            'email'     => $user->email,
+            'username'  => $user->username,
+            'phone_num' => $user->phone_num,
+        ]);
+    }
+
 
         
 }
