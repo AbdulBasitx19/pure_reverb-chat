@@ -105,8 +105,24 @@ class UserController extends Controller
         $user->delete();
         return response()->json(['success' => 'User Deleted Successfully']);
     }
-    
 
+    // GET USER ROLES: Assign Role Modal ke liye data mangwana
+    public function getUserRoles($id)
+    {
+        $user = User::findOrFail($id);
+        
+        // Database mein available saare roles
+        $allRoles = Role::all(); 
+        
+        // Is specific user ke paas pehle se kaunse roles hain (sirf unki IDs)
+        $userRoles = $user->roles->pluck('id')->toArray();
+
+        return response()->json([
+            'user'      => $user,
+            'allRoles'  => $allRoles,
+            'userRoles' => $userRoles,
+        ]);
+    }
 
         
 }
