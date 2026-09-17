@@ -33,8 +33,14 @@ Route::middleware(['auth'])->prefix('admin')->name('admin.')->group(function () 
 
 
     //Users CRUD
-        Route::get('/users', [UserController::class, 'index'])->name('users.index');
-        
+    Route::get('/users', [UserController::class, 'index'])->name('users.index');
+    Route::post('/users', [UserController::class, 'store'])->name('users.store');
+    Route::get('/users/{id}/edit', [UserController::class, 'edit'])->name('users.edit');
+    Route::delete('/users/{id}', [UserController::class, 'destroy'])->name('users.destroy');
+    
+    // User Roles Assignment
+    Route::get('/users/{id}/roles', [UserController::class, 'getUserRoles'])->name('users.roles');
+    Route::post('/users/{id}/sync-roles', [UserController::class, 'syncUserRoles'])->name('users.sync-roles');
 });
 
 
