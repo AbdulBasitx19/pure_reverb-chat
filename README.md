@@ -1,77 +1,107 @@
-# 🎨 Velzon Theme with Login UI - Laravel Blade Templating
+# 🛡️ Velzon RBAC App - Laravel Role & Permission Management
 
-A clean, production-ready Laravel Blade templating setup extending the base **Velzon Admin & Dashboard Theme** with a fully styled, responsive **Login Page**. 
+A complete, production-ready Role-Based Access Control (RBAC) system built with **Laravel**, **Spatie Laravel Permission**, and the beautiful **Velzon Admin Theme**. 
 
-This repository contains **pure UI only** (no backend authentication logic, database queries, or session handling). It is designed to be the perfect stepping stone for developers who want to integrate Velzon's beautiful auth screens into their Laravel projects before adding custom backend logic.
+This project demonstrates a full-stack implementation of user management, role assignment, and granular permission control using AJAX, Yajra DataTables, and Laravel's native authentication.
 
 ---
 
-## 📦 IMPORTANT: Download Theme Assets (Required)
+## ✨ Key Features
 
-Due to GitHub's file size limits, the theme's static assets (CSS, JS, Images, Fonts, and Libraries) are **not** included in this repository. You must download them manually before running the project.
+- 🔐 **Manual Authentication**: Custom Login/Logout logic with secure session handling.
+- 👥 **User Management**: Full CRUD (Create, Read, Update, Delete) for users via AJAX.
+- 🛡️ **Role Management**: Create, edit, and delete roles dynamically.
+- 🔑 **Granular Permissions**: Assign specific permissions to roles using Spatie's `syncPermissions()`.
+- 🔄 **Dynamic Role Assignment**: Assign multiple roles to users on the fly using `syncRoles()`.
+- 📊 **Server-Side DataTables**: Fast, paginated, and searchable tables using Yajra DataTables.
+- 🎨 **Velzon Admin UI**: Fully integrated with the premium Velzon Bootstrap 5 admin template.
+- 🛠️ **Custom Database Schema**: Extended default `users` table with `username` and `phone_num`.
+
+---
+
+## 📦 IMPORTANT: Download Theme Assets
+
+Due to GitHub's file size limits, the Velzon theme's static assets are hosted externally.
 
 🔗 **Google Drive Link:** [Velzon Theme Assets](https://drive.google.com/drive/folders/1m_QJfs4-TQ0vzx1bCQw_AeKkJceOPkSG?usp=sharing)
 
-### **Setup Instructions:**
-1. Download the `assets` folder (or `assets.zip`) from the Drive link above.
-2. Extract it (if zipped).
-3. Place the `assets` folder directly inside your Laravel project's `public/` directory.
-   - **Correct Path:** `your-project/public/assets/` (It must contain `css`, `js`, `images`, `libs`, etc.)
+**Setup Instructions:**
+1. Download the `assets` folder from the Drive link.
+2. Place it directly inside the `public/` directory.
+   - **Correct Path:** `your-project/public/assets/`
 
 ---
 
 ## 🚀 Installation & Setup
 
-Follow these steps to get the templating running on your local machine:
-
 ### 1. Clone the Repository
 ```bash
-git clone https://github.com/AbdulBasitx19/velzon-theme-with-login-ui.git
-cd velzon-theme-with-login-ui
+git clone https://github.com/AbdulBasitx19/velzon-rbac-app.git
+cd velzon-rbac-app
 ```
-### 2.Install PHP Dependencies
+### 2. Install Dependencies:
+```bash
 composer install
+```
+
 ### 3. Setup Environment
-# Copy the example environment file
+```bash
 cp .env.example .env
-
-# Generate a new application key
 php artisan key:generate
+```
 
-### 4. Download Assets
-Follow the "Download Theme Assets" instructions above and place the folder in public/.
+### 4. Database Setup
+Update your .env file with your database credentials:
+    DB_CONNECTION=mysql
+    DB_DATABASE=velzon_rbac
+    DB_USERNAME=root
+    DB_PASSWORD=
+    SESSION_DRIVER=database
 
-### 5. Start the Development Server
+Run migrations to create the tables (including Spatie's custom permission tables):
+```bash
+php artisan migrate
+```
+
+### 5. Seed Roles & Permissions
+```bash
+php artisan db:seed --class=RolePermissionSeeder
+```
+
+### 7. Download Assets
+Follow the "Download Theme Assets" instructions above.
+
+### 8. Start the Server
+```bash
 php artisan serve
+```
 
-### 6. View the Templates
-Open your browser and navigate to:
-Dashboard UI: http://127.0.0.1:8000/dashboard
-Login UI: http://127.0.0.1:8000/login
+### 📂 Project Structure Highlights
+app/
+├── Http/Controllers/
+│   ├── LoginController.php          # Handles Auth logic
+│   └── Admin/
+│       ├── RoleController.php       # Handles Roles & Permissions CRUD
+│       └── UserController.php       # Handles Users CRUD & Role Assignment
+└── Models/
+    └── User.php                     # Extended with Spatie's HasRoles trait
 
-###  📂 Project Structure
+database/
+├── migrations/
+│   ├── ..._create_users_table.php   # Customized with username & phone_num
+│   └── ..._create_permission_tables.php # Spatie's migration with custom columns
+└── seeders/
+    └── RolePermissionSeeder.php     # Seeds default roles, permissions, and admin user
+
 resources/views/
-├── auth/
-│   ├── auth-master.blade.php       # Dedicated skeleton for auth pages (centered layout)
-│   ├── head-css.blade.php          # Auth-specific CSS includes
-│   ├── scripts.blade.php           # Auth-specific JS includes (e.g., password toggle)
-│   ├── footer.blade.php            # Auth page footer
-│   └── login.blade.php             # The main Login UI page (Form, Alerts, Carousel)
-│
-└── layouts/
-    ├── master.blade.php            # Main dashboard skeleton
-    ├── head-css.blade.php          # Global CSS and CDN links
-    ├── scripts.blade.php           # Global JS, jQuery, and CDN scripts
-    ├── topbar.blade.php            # Header, search, notifications, user dropdown
-    ├── sidebar.blade.php           # Navigation menu
-    ├── footer.blade.php            # Page footer
-    ├── body-tools.blade.php        # Preloader and back-to-top button
-    ├── customizer.blade.php        # Theme settings offcanvas panel
-    ├── notification-modal.blade.php# Global confirmation modal
-    └── pages/
-        └── dashboard/
-            └── index.blade.php     # Main dashboard view (extends master)
+├── auth/                            # Login UI
+├── layouts/                         # Master layout, Sidebar, Topbar
+└── users/
+    ├── role.blade.php               # Role Management UI (DataTables + Modals)
+    └── index.blade.php              # User Management UI (DataTables + Modals)
 
 ### 📄 License
-This templating setup is provided for educational and starter-project purposes. The Velzon theme itself is subject to its original licensing terms by Themesbrand.
-Built with ❤️ using Laravel 11+ and clean Blade templating practices.
+This project is built for educational and portfolio purposes. The Velzon theme is subject to its original licensing terms by Themesbrand.
+
+Built with ❤️ using Laravel, Spatie Permission, Yajra DataTables, and clean MVC practices.
+
