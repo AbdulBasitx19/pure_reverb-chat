@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\Admin\RoleController; 
+use App\Http\Controllers\Admin\UserController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -37,7 +38,7 @@ Route::middleware(['auth'])->prefix('admin')->name('admin.')->group(function () 
     Route::post('/users', [UserController::class, 'store'])->name('users.store');
     Route::get('/users/{id}/edit', [UserController::class, 'edit'])->name('users.edit');
     Route::delete('/users/{id}', [UserController::class, 'destroy'])->name('users.destroy');
-    
+
     // User Roles Assignment
     Route::get('/users/{id}/roles', [UserController::class, 'getUserRoles'])->name('users.roles');
     Route::post('/users/{id}/sync-roles', [UserController::class, 'syncUserRoles'])->name('users.sync-roles');

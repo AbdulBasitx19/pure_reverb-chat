@@ -65,12 +65,11 @@
                                 </a>
                             </li>
                             @endcan
-                            <!-- TODO: Baad mein can('view-users') aur route('admin.users.index') yahan lagana -->
-                            <li class="nav-item">
-                                <a href="#" class="nav-link">
-                                    <i class="ri-user-line align-middle me-1"></i> Users 
-                                </a>
-                            </li>
+                            @can('view-users')
+                            <a href="{{ route('admin.users.index') }}" class="nav-link">
+                                <i class="ri-user-line align-middle me-1"></i> Users 
+                            </a>
+                            @endcan
                         </ul>
                     </div>
                 </li>
