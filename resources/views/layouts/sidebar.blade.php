@@ -43,12 +43,12 @@
                 <!-- ========================================== -->
                 <li class="nav-item">
                     <!-- TODO: Jab route ban jaye toh href="{{ route('dashboard') }}" kar dena -->
-                    <a href="#" class="nav-link menu-link active"> 
+                    <a href="{{ route('dashboard') }}" class="nav-link menu-link active"> 
                         <i class="ri-dashboard-2-line"></i> <span data-key="t-dashboards">Dashboard</span>
                     </a>
                 </li>
 
-                {{-- <!-- ========================================== -->
+                <!-- ========================================== -->
                 <!-- 1. USER MODULE (Temporarily Safe for Templating) -->
                 <!-- ========================================== -->
                 <li class="nav-item">
@@ -58,11 +58,13 @@
                     <div class="collapse menu-dropdown" id="sidebarUsers">
                         <ul class="nav nav-sm flex-column">
                             <!-- TODO: Baad mein can('view-roles') aur route('admin.roles.index') yahan lagana -->
+                            @can('view-roles')
                             <li class="nav-item">
-                                <a href="#" class="nav-link">
+                                <a href="{{ route('admin.roles.index') }}" class="nav-link">
                                     <i class="ri-shield-user-line align-middle me-1"></i> Roles 
                                 </a>
                             </li>
+                            @endcan
                             <!-- TODO: Baad mein can('view-users') aur route('admin.users.index') yahan lagana -->
                             <li class="nav-item">
                                 <a href="#" class="nav-link">
@@ -71,7 +73,7 @@
                             </li>
                         </ul>
                     </div>
-                </li> --}}
+                </li>
 
                 {{-- <!-- ========================================== -->
                 <!-- 2. TASKS MODULE -->

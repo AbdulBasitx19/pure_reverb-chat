@@ -29,7 +29,7 @@ Route::middleware(['auth'])->prefix('admin')->name('admin.')->group(function () 
     
     // Permissions Routes
     Route::get('/roles/{id}/permissions', [RoleController::class, 'getPermissions'])->name('roles.permissions');
-    Route::post('/roles/{id}/permissions', [RoleController::class, 'syncPermissions'])->name('roles.sync-permissions');
+    Route::post('/roles/{id}/sync-permissions', [RoleController::class, 'syncPermissions'])->name('roles.sync-permissions');
 });
 
 
