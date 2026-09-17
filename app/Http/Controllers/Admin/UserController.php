@@ -96,6 +96,18 @@ class UserController extends Controller
     }
 
 
+    public function destroy($id)
+    {
+        $user = User::findOrFail($id);
+        
+        //  SPATIE : Database level par 'onDelete cascade'
+        //  'model_has_roles' table se user ki entries delete ho jayengi.
+        $user->delete();
+        return response()->json(['success' => 'User Deleted Successfully']);
+    }
+    
+
+
         
 }
     
