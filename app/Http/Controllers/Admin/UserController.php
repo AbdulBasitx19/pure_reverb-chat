@@ -36,6 +36,52 @@ class UserController extends Controller
         return view('users.index');
     }
 
+    public function store(Request $request){
+        if($request->user_id)
+        {
+            $user = User::findOrFail($request->user_id);
+            $request->validate([
+                'name'      => 'required|string|max:255',
+                'email'     => 'required|email|unique:users,email,' . $user->id,
+                'username'  => 'nullable|string|max:50|unique:users,username,' . $user->id,
+                'phone_num' => 'nullable|string|max:20',
+            ]);
+
+            $data = [
+                'name'      => $request->name,
+                'email'     => $request->email,
+                'username'  => $request->username,
+                'phone_num' => $request->phone_num,
+            ];
+
+            //conditional password change -> agr password field enter ki toh :
+            if ($request->filled('password')) {
+                $data['password'] = Hash::make($request->password);
+            }
+             $user->update($data);
+            return response()->json(['success' => 'User Updated Successfully']);
+
+        } else {
+            $request->validate([
+                'name'      => 'required|string|max:255',
+                'email'     => 'required|email|unique:users,email',
+                'password'  => 'required|min:6', // Naye user ke liye password lazmi hai
+                'username'  => 'nullable|string|max:50|unique:users,username',
+                'phone_num' => 'nullable|string|max:20',
+            ]);
+
+            $data = [
+                'name'      => $request->name,
+                'email'     => $request->email,
+                'password'  => Hash::make($request->password), // Naya password hash karna zaroori hai
+                'username'  => $request->username,
+                'phone_num' => $request->phone_num,
+            ];
+
+            User::create($data);
+            return response()->json(['success' => 'User Created Successfully']);
+        }
+    }
 
 
         
