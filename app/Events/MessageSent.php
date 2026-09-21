@@ -4,7 +4,6 @@ namespace App\Events;
 
 use Illuminate\Broadcasting\Channel;
 use Illuminate\Broadcasting\InteractsWithSockets;
-use Illuminate\Broadcasting\PresenceChannel;
 use Illuminate\Broadcasting\PrivateChannel;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcastNow;
 use Illuminate\Foundation\Events\Dispatchable;
@@ -19,42 +18,38 @@ class MessageSent implements ShouldBroadcastNow
     
     public function __construct(Message $message)
     {
-         // Jab event fire hota hai, toh Message object is constructor mein aata hai
         $this->message = $message;
     }
 
-    /**
-     * Get the channels the event should broadcast on.
-     *
-     * @return array<int, Channel>
-     */
     public function broadcastOn(): array
     {
-        //  Common channel for both sender and receiver
-        // Format: chat.{min(id)}.{max(id)}
         $ids = [$this->message->sender_id, $this->message->receiver_id];
-        sort($ids); // Sort karke min aur max nikal liye
+        sort($ids);
         return [
             new PrivateChannel('chat.' . $ids[0] . '.' . $ids[1]),
         ];
+        // Note: PrivateChannel automatically adds 'private-' prefix
     }
 
     public function broadcastAs(): string 
     {
-        // Yeh event ka naam hai jo frontend (Native WebSocket) use karega
         return 'message.sent';
     }
 
-    public function broadcastWith() :array 
+    public function broadcastWith(): array 
     {
+        // ✅ CRITICAL FIX: Guarantee that sender_name is never null
+        $senderName = $this->message->sender 
+                      ? $this->message->sender->name 
+                      : auth()->user()->name; // Fallback to current user if relationship is null
+
         return [
             'id' => $this->message->id,
             'sender_id' => $this->message->sender_id,
-            'sender_name' => $this->message->sender->name,
+            'sender_name' => $senderName, // Explicit string, not an object
             'receiver_id' => $this->message->receiver_id,
             'message' => $this->message->message,
             'created_at' => $this->message->created_at->toDateTimeString(),
         ];
     }
-
 }

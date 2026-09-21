@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\Admin\RoleController; 
 use App\Http\Controllers\Admin\UserController;
-
+use App\Http\Controllers\ChatController;
 Route::get('/', function () {
     return view('welcome');
 });
@@ -44,6 +44,7 @@ Route::middleware(['auth'])->prefix('admin')->name('admin.')->group(function () 
     Route::post('/users/{id}/sync-roles', [UserController::class, 'syncUserRoles'])->name('users.sync-roles');
 });
 
+Broadcast::routes(['middleware' => ['auth']]);
 
 Route::middleware(['auth'])->group(function () {
     Route::get('/chat', [ChatController::class, 'index'])->name('chat.index');
