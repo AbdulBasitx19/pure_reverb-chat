@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Message;
 use App\Models\User;
+use App\Events\MessageSent; 
 
 class ChatController extends Controller
 {
@@ -36,6 +37,9 @@ class ChatController extends Controller
 
         // Eager Loading: Message ke sath sender ki details bhi load karo
         $message->load('sender');
+
+        // EVENT FIRE: Yeh line Reverb ko trigger karti hai
+        event(new MessageSent($message));
 
         // JSON Response return karo (Frontend AJAX ke liye)
         return response()->json([
